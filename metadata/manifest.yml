@@ -1,0 +1,17 @@
+Name: logstash
+Cartridge-Short-Name: logstash
+Display-Name: DSG Platform Logstash 1.4.2
+Version: "1.4.2"
+Versions: ["1.4.2"]
+Cartridge-Version: 0.0.1
+Cartridge-Vendor: dsg
+Description: The logstash cartridge allows you to startup a version of logstash which can be used to monitor all the logs going into the openshift gear log directory.
+Categories:
+ - service
+ - logstash
+Provides:
+ - logstash
+Scaling:
+  Min: 1
+  Max: -1
+
