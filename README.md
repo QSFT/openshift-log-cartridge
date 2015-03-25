@@ -1,0 +1,1 @@
+# openshift-log-cartridge
