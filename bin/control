@@ -1,0 +1,106 @@
+#!/bin/bash -eu
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+readonly PID_FILE="${OPENSHIFT_HOMEDIR}/app-root/runtime/logstash.pid"
+#readonly LS_TEMP_FILE=${LS_TEMP_FILE:-"/etc/sysconfig/logstash.conf.erb"}
+readonly CONF_DIR="${OPENSHIFT_HOMEDIR}/app-root/runtime/configuration"
+readonly CONF_FILE="$CONF_DIR/logstash.conf"
+readonly LOG_FILE="${OPENSHIFT_LOG_DIR}/logstash.log"
+
+function is_running() {
+   # Check for running app
+    if [ -f "$PID_FILE" ]; then
+        local lspid=$(cat $PID_FILE);
+        if /bin/ps -p $lspid 1>&2 >/dev/null;
+        then
+            return 0
+        fi 
+    fi
+    # Not running
+    return 1
+}
+
+function create_dir_if_not_exists {
+    if [ -z "$1" ]
+    then
+        return
+    fi
+
+    local dir_name=$1
+    if [ ! -d $dir_name ]
+    then
+        mkdir -p $dir_name
+    fi
+}
+
+function start() {
+    echo "Attempting to start logstash cartridge"
+    if is_running
+    then
+        local lspid=$(cat $PID_FILE);
+        echo "Logstatsh is already running with pid ${lspid}"
+    else
+        # Start logstash agent
+        
+        # Step 1 fill in template with environment variables
+        create_dir_if_not_exists $CONF_DIR
+        erb conf/logstash.conf.erb > $CONF_FILE
+
+        # Step 2 start logstash 
+        nohup ${LOGSTASH_DIR}/bin/logstash agent -f $CONF_FILE -l $LOG_FILE &
+        local ret=$?
+        if [ $ret -ne 0 ]; then
+            echo "Logstash failed to start - $ret"
+            return $ret
+        fi
+        echo $! > $PID_FILE
+    fi 
+}
+
+function stop() {
+    echo "Attempting to stop logstash cartridge"
+    if is_running 
+    then
+        local lspid=$(cat $PID_FILE);
+        echo "Stopping logstash by sending SIGTERM to ${lspid}"
+        kill -s SIGTERM $lspid
+        echo "Successfully stopped logstash cartridge"
+        if [ -f $CONF_FILE ]
+        then
+            rm -v $CONF_FILE
+        fi
+    else
+        echo "Logstash is not currently running!"
+    fi
+}
+
+function restart() {
+    echo "Restarting logstash cartridge"
+    stop
+    start
+}
+
+function status() {
+    if is_running
+    then
+        client_result "Logstash is currently running"
+    else
+        client_result "Logstash is not currently running"
+    fi
+}
+
+if ! [ $# -gt 0 ]; then
+    echo "Usage: $0 [start|stop|restart|graceful|graceful-stop|status]"
+    exit 1
+fi
+
+# Handle commands.
+case "$1" in
+    start)               start       ;;
+    restart|graceful)    restart     ;;
+    graceful-stop|stop)  stop        ;;
+    status)              status      ;;
+    *)                   exit 0
+esac
+
+exit 0
