@@ -3,9 +3,8 @@
 LOGSTASH_VERSION='1.4.2'
 LOGSTASH_NAME="logstash-${LOGSTASH_VERSION}"
 LOGSTASH_URL="https://download.elasticsearch.org/logstash/logstash/${LOGSTASH_NAME}.tar.gz"
-INSTALL_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime
 
-cd ${INSTALL_DIR}
+cd ${OPENSHIFT_DATA_DIR}
 wget ${LOGSTASH_URL}
 tar xvf ${LOGSTASH_NAME}.tar.gz
 mv ${LOGSTASH_NAME} logstash
