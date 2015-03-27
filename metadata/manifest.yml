@@ -1,5 +1,6 @@
 Name: logstash
 Cartridge-Short-Name: logstash
+Architecture: noarch
 Display-Name: DSG Platform Logstash 1.4.2
 Version: "1.4.2"
 Versions: ["1.4.2"]
@@ -9,6 +10,7 @@ Description: TBD
 Categories:
  - service
  - logstash
+Source-Url: https://github.com/PiyushMattoo/openshift-log-cartridge.git
 Provides:
  - logstash
 Scaling:
