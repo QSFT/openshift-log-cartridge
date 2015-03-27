@@ -2,18 +2,34 @@ Name: logstash
 Cartridge-Short-Name: logstash
 Architecture: noarch
 Display-Name: DSG Platform Logstash 1.4.2
-Version: "1.4.2"
-Versions: ["1.4.2"]
+Description: "The logstash cartridge allows you to startup a version of logstash which can be used to monitor all the logs going into the openshift gear log directory."
+Version: '1.4.2'
+Versions: ['1.4.2']
 Cartridge-Version: 0.0.1
-Cartridge-Vendor: dsg
-Description: TBD
+Cartridge-Vendor: DSG
+License: Apache 2
 Categories:
  - service
  - logstash
 Source-Url: https://github.com/PiyushMattoo/openshift-log-cartridge.git
+Help-Topics:
+  "Developer Center": http://logstash.net/docs/1.4.2/
+Cart-Data:
+  - Key: "OPENSHIFT_DORADUS_HOST"
+    Type: environment
+    Description: "Host for doradus database"
+  - Key: "OPENSHIFT_DORADUS_PORT"
+    Type: environment
+    Description: "Port for doradus database"
+  - Key: "OPENSHIFT_DORADUS_TENANT"
+    Type: environment
+    Description: "Doradus Tenant"
 Provides:
  - logstash
 Scaling:
   Min: 1
-  Max: -1
+  Max: 1
+  
+  
+
 
