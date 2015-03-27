@@ -1,3 +1,12 @@
 #!/bin/bash
 
-curl -s https://download.elasticsearch.org/logstash/logstash/logstash-1.4.2.tar.gz | tar xz
+LOGSTASH_VERSION='1.4.2'
+LOGSTASH_NAME="logstash-${LOGSTASH_VERSION}"
+LOGSTASH_URL="https://download.elasticsearch.org/logstash/logstash/${LOGSTASH_NAME}.tar.gz"
+INSTALL_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime
+
+cd ${INSTALL_DIR}
+wget ${LOGSTASH_URL}
+tar xvf ${LOGSTASH_NAME}.tar.gz
+mv ${LOGSTASH_NAME} logstash
+rm ${LOGSTASH_NAME}.tar.gz
