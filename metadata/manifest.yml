@@ -6,7 +6,7 @@ Description: "The logstash cartridge allows you to startup a version of logstash
 Version: '1.4.2'
 Versions: ['1.4.2']
 Cartridge-Version: 0.0.1
-Cartridge-Vendor: DSG
+Cartridge-Vendor: Dell
 License: Apache 2
 Categories:
  - service
