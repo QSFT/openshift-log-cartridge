@@ -2,7 +2,7 @@ Name: logstash
 Cartridge-Short-Name: LOGSTASH
 Architecture: noarch
 Display-Name: DSG Platform Logstash 1.4.2
-Description: "The logstash cartridge allows you to startup a version of logstash which can be used to monitor all the logs going into the openshift gear log directory."
+Description: "The logstash cartridge allows you to start a version of logstash which can be used to stream, collect all the logs from OPENSHIFT_LOG_DIR (in a pre-defined format) into Doradus."
 Version: '1.4.2'
 Versions: ['1.4.2']
 Cartridge-Version: 0.0.1

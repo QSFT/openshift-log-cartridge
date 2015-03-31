@@ -21,7 +21,7 @@ output {
 	    http_method => "post"
 		url => "http://<%= ENV['OPENSHIFT_DORADUS_HOST'] %>:<%= ENV['OPENSHIFT_DORADUS_PORT'] %>/LoggingApplication/Logs?tenant=<%= ENV['OPENSHIFT_DORADUS_TENANT'] %>"
 		format => "message"
-		headers => ["Authorization","Basic U3VwZXJEb3J5OkFscGhhMQ=="]
+		headers => ["Authorization","Basic ENV['OPENSHIFT_DORADUS_CRDL']"]
         content_type => "application/json"
         message => '{"batch": { "docs": [ {"doc": { "Timestamp": "%{time}", "LogLevel": "%{level}","LogMessage": "%{logmessage}" } } ] } }'
     }
