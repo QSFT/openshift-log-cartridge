@@ -28,8 +28,11 @@ First, configure the application with the appropriate environment variables. The
 
 Redirect the application logs to OPENSHIFT_LOG_DIR in the below format and the log will be tailed, loaded into Doradus.
 
-`ISO 8601 Standard time
-`2015-03-20 11:08:05 INFO Test Message One` 
+`<ISO 8601 Standard time> <LogLevel> <Log Message>`  for example: `2015-03-20 11:08:05 INFO Test Message One` 
+
+Doradus REST command to view the logs:
+
+`http://<DoradusHost>:<DoradusPort>/LoggingApplication/Logs/_query?tenant=<DoradusTenant>&q=*`
 	
 ## License
 
