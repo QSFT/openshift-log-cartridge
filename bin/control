@@ -47,7 +47,7 @@ function start() {
         erb conf/logstash.conf.erb > $CONF_FILE
 
         # Step 2 start logstash 
-        nohup ${LOGSTASH_DIR}/bin/logstash agent -f $CONF_FILE -l $LOG_FILE &
+        nohup ${OPENSHIFT_DATA_DIR}/logstash/bin/logstash agent -f $CONF_FILE -l $LOG_FILE &
         local ret=$?
         if [ $ret -ne 0 ]; then
             echo "Logstash failed to start - $ret"
