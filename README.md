@@ -10,7 +10,8 @@ These environment variables are used when configuring Logstash:
  * **`OPENSHIFT_DORADUS_HOST`**: URL of the Doradus hosting server. 
  * **`OPENSHIFT_DORADUS_PORT`**: Username to connect as. 
  * **`OPENSHIFT_DORADUS_TENANT`**: Password to connect with. 
- * **`OPENSHIFT_DORADUS_CRDL`**: Base-64 encoded tenant credentials. 
+ * **`OPENSHIFT_DORADUS_USER`**: Doradus User. 
+ * **`OPENSHIFT_DORADUS_PWD`**: Doradus Password. 
 
 
 ## Installation
@@ -19,7 +20,7 @@ First, configure the application with the appropriate environment variables. The
 
     # Configure environment
     $ rhc env set OPENSHIFT_DORADUS_HOST=abc123-us-east-1.foundcluster.com OPENSHIFT_DORADUS_PORT=1123 OPENSHIFT_DORADUS_TENANT=secret 
-	              OPENSHIFT_DORADUS_CRDL=U3VwZXJEb3J5OkFscGhhMQ== -a my-app
+	  OPENSHIFT_DORADUS_USER=lucille OPENSHIFT_DORADUS_PWD=agnes -a my-app
 
     # Add cartridge
     $ rhc cartridge add -a your-app-name https://raw.githubusercontent.com/PiyushMattoo/openshift-log-cartridge/master/metadata/manifest.yml
@@ -28,7 +29,8 @@ First, configure the application with the appropriate environment variables. The
 
 Redirect the application logs to OPENSHIFT_LOG_DIR in the below format and the log will be tailed, loaded into Doradus.
 
-`<ISO 8601 Standard time> <LogLevel> <Log Message>`  for example: `2015-03-20 11:08:05 INFO Test Message One` 
+`<ISO 8601 Standard time> <LogLevel> <Log Message>`  
+For example: `2015-03-20 11:08:05 INFO Test Message One` 
 
 Doradus REST command to view the logs:
 
