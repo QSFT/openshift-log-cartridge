@@ -6,7 +6,6 @@ readonly PID_FILE="${OPENSHIFT_HOMEDIR}/app-root/runtime/logstash.pid"
 readonly CONF_DIR="${OPENSHIFT_HOMEDIR}/app-root/runtime/configuration"
 readonly CONF_FILE="$CONF_DIR/logstash.conf"
 readonly LOG_FILE="${OPENSHIFT_LOG_DIR}/logstash.log"
-export  ENCODED_AUTH_STRING
 
 function is_running() {
    # Check for running app
@@ -41,8 +40,9 @@ function encode() {
 
 function start() {
     echo "Attempting to start logstash cartridge"
-	export ENCODED_AUTH_STRING=encode ${OPENSHIFT_DORADUS_USER}:${OPENSHIFT_DORADUS_PWD}
-	client_result "Encoded string is " ENCODED_AUTH_STRING
+	ENCODED_AUTH_STRING=encode ${OPENSHIFT_DORADUS_USER}:${OPENSHIFT_DORADUS_PWD}
+	export $ENCODED_AUTH_STRING
+	client_result "Encoded string is " $ENCODED_AUTH_STRING
     if is_running
     then
         local lspid=$(cat $PID_FILE);
