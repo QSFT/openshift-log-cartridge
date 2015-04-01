@@ -16,7 +16,7 @@ function is_running() {
             return 0
         fi 
     fi
-    # Not running
+    # Not runningvi
     return 1
 }
 
@@ -34,13 +34,12 @@ function create_dir_if_not_exists {
 }
 
 function encode() {
-   AUTH_STRING="$(echo $1 | base64)"
-   echo $AUTH_STRING
+   ENCODED_AUTH_STRING="$(echo $1 | base64)"
 }
 
 function start() {
     echo "Attempting to start logstash cartridge"
-	ENCODED_AUTH_STRING=encode ${OPENSHIFT_DORADUS_USER}:${OPENSHIFT_DORADUS_PWD}
+	encode ${OPENSHIFT_DORADUS_USER}:${OPENSHIFT_DORADUS_PWD}
 	export $ENCODED_AUTH_STRING
 	client_result "Encoded string is " $ENCODED_AUTH_STRING
     if is_running
