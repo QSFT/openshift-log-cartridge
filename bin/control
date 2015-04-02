@@ -41,7 +41,7 @@ function start() {
     echo "Attempting to start logstash cartridge"
 	encode ${OPENSHIFT_DORADUS_USER}:${OPENSHIFT_DORADUS_PWD}
 	export $ENCODED_AUTH_STRING
-	client_result "Encoded string is " $ENCODED_AUTH_STRING
+	client_result "Encoded string is $ENCODED_AUTH_STRING" 
     if is_running
     then
         local lspid=$(cat $PID_FILE);

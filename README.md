@@ -8,10 +8,10 @@ The logstash cartridge allows you to start a version of logstash which can be us
 These environment variables are used when configuring Logstash:
 
  * **`OPENSHIFT_DORADUS_HOST`**: URL of the Doradus hosting server. 
- * **`OPENSHIFT_DORADUS_PORT`**: Username to connect as. 
- * **`OPENSHIFT_DORADUS_TENANT`**: Password to connect with. 
- * **`OPENSHIFT_DORADUS_USER`**: Doradus User. 
- * **`OPENSHIFT_DORADUS_PWD`**: Doradus Password. 
+ * **`OPENSHIFT_DORADUS_PORT`**: Port-number of the Doradus service. 
+ * **`OPENSHIFT_DORADUS_TENANT`**: Tenant name. 
+ * **`OPENSHIFT_DORADUS_USER`**: Tenant User. 
+ * **`OPENSHIFT_DORADUS_PWD`**: Tenant Password. 
 
 
 ## Installation
