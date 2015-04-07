@@ -25,6 +25,12 @@ Cart-Data:
   - Key: "OPENSHIFT_DORADUS_TENANT"
     Type: environment
     Description: "Doradus Tenant"
+  - Key: "OPENSHIFT_DORADUS_USER"
+    Type: environment
+    Description: "Tenant User"
+  - Key: "OPENSHIFT_DORADUS_PWD"
+    Type: environment
+    Description: "Tenant Password"	
 Provides:
  - logstash
 Scaling:
