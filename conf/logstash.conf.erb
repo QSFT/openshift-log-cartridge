@@ -14,7 +14,7 @@ filter {
       }
 	  ruby {
 	    code => "require 'base64';
-		event['enccred'] = Base64.encode64('ENV['OPENSHIFT_DORADUS_USER']:ENV['OPENSHIFT_DORADUS_PWD']').gsub(/\n/, '')"
+		event['enccred'] = Base64.encode64('<%= ENV['OPENSHIFT_DORADUS_USER'] %>:<%= ENV['OPENSHIFT_DORADUS_PWD'] %>').gsub(/\n/, '')"
       }
    }
 }
