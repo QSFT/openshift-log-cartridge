@@ -2,7 +2,6 @@
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 readonly PID_FILE="${OPENSHIFT_HOMEDIR}/app-root/runtime/logstash.pid"
-#readonly LS_TEMP_FILE=${LS_TEMP_FILE:-"/etc/sysconfig/logstash.conf.erb"}
 readonly CONF_DIR="${OPENSHIFT_HOMEDIR}/app-root/runtime/configuration"
 readonly CONF_FILE="$CONF_DIR/logstash.conf"
 readonly LOG_FILE="${OPENSHIFT_LOG_DIR}/logstash.log"
@@ -33,21 +32,14 @@ function create_dir_if_not_exists {
     fi
 }
 
-function encode() {
-   ENCODED_AUTH_STRING="$(echo $1 | base64)"
-}
-
 function start() {
-    echo "Attempting to start logstash cartridge"
-	encode ${OPENSHIFT_DORADUS_USER}:${OPENSHIFT_DORADUS_PWD}
-	export $ENCODED_AUTH_STRING
-	client_result "Encoded string is $ENCODED_AUTH_STRING" 
+    echo "Attempting to start logstash cartridge" 
     if is_running
     then
         local lspid=$(cat $PID_FILE);
         echo "Logstatsh is already running with pid ${lspid}"
     else
-        # Start logstash agent
+        # Start logstash agent as a two-step process
         
         # Step 1 fill in template with environment variables
         create_dir_if_not_exists $CONF_DIR
