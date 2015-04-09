@@ -13,7 +13,8 @@ filter {
         match => ["message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} %{GREEDYDATA:logmessage}"]
       }
 	  ruby {
-		code => "event['enccred'] = Base64.encode64(ENV['OPENSHIFT_DORADUS_USER']:ENV['OPENSHIFT_DORADUS_PWD'])"
+	    code => "require 'base64';
+		event['enccred'] = Base64.encode64('ENV['OPENSHIFT_DORADUS_USER']:ENV['OPENSHIFT_DORADUS_PWD']')"
       }
    }
 }
