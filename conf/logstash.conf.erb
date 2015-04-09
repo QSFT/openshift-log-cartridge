@@ -10,7 +10,11 @@ input {
 filter {
    if [type] == "log" {
       grok {
-        match => ["message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} %{GREEDYDATA:logmessage}"]
+        match => [
+             "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} %{GREEDYDATA:logmessage}",
+             "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
+        ]
+        break_on_match => false
       }
 	  ruby {
 	    code => "require 'base64';
@@ -26,6 +30,6 @@ output {
 		format => "message"
 		headers => ["Authorization","Basic %{enccred}"]
         content_type => "application/json"
-        message => '{"batch": { "docs": [ {"doc": { "Timestamp": "%{time}", "LogLevel": "%{level}","LogMessage": "%{logmessage}" } } ] } }'
+        message => '{"batch": { "docs": [ {"doc": { "Timestamp": "%{time}", "LogLevel": "%{level}","LogMessage": "%{logmessage}", "Source": "%{filename}" } } ] } }'
     }
 }
