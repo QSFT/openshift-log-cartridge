@@ -1,20 +1,21 @@
 Name: logstash
 Cartridge-Short-Name: LOGSTASH
 Architecture: noarch
-Display-Name: DSG Platform Logstash 1.4.2
-Description: "The logstash cartridge allows you to start a version of logstash which can be used to stream, collect all the logs from OPENSHIFT_LOG_DIR (in a pre-defined format) into Doradus."
-Version: '1.4.2'
-Versions: ['1.4.2']
-Cartridge-Version: 0.0.1
+Display-Name: Doradus Logstash 0.1.1
+Description: "The doradus logstash cartridge allows you to start a customized version of logstash which can be used to stream, collect all the logs from OPENSHIFT_LOG_DIR (in a pre-defined format) into Doradus. The Cartridge monitors the OPENSHIFT_LOG_DIR, tailing the log files, queueing up batches of records and when it either reaches the max batch size or when the max idle time has elapsed the cartridge would then write log events to Doradus for enhanced performance reasons"
+Version: '1.5.0'
+Versions: ['1.5.0']
+Cartridge-Version: 0.1.1
 Cartridge-Vendor: dell
 License: Apache 2
 Categories:
- - service
+ - embedded
+ - plugin
  - logstash
 Website: https://github.com/PiyushMattoo/openshift-log-cartridge
 Source-Url: https://github.com/PiyushMattoo/openshift-log-cartridge.git
 Help-Topics:
-  "Developer Center": http://logstash.net/docs/1.4.2/
+  "Developer Center": https://www.elastic.co/blog/logstash-1-5-0-beta1-released
 Cart-Data:
   - Key: "OPENSHIFT_DORADUS_HOST"
     Type: environment
@@ -35,7 +36,11 @@ Provides:
  - logstash
 Scaling:
   Min: 1
-  Max: 1
+  Max: -1
+Group-Overrides:
+- components:
+  - logstash
+  - web_framework
   
   
 

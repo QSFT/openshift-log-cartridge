@@ -2,15 +2,15 @@
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-LOGSTASH_VERSION='1.4.2'
+LOGSTASH_VERSION='1.5.0'
 LOGSTASH_NAME="logstash-${LOGSTASH_VERSION}"
-LOGSTASH_URL="https://download.elasticsearch.org/logstash/logstash/${LOGSTASH_NAME}.tar.gz"
+LOGSTASH_URL="https://git.labs.dell.com/projects/BD/repos/logstash-output-batched_http/browse/artifacts/${LOGSTASH_NAME}.tar.gz?raw"
 
 cd ${OPENSHIFT_DATA_DIR}
 wget ${LOGSTASH_URL}
-tar xvf ${LOGSTASH_NAME}.tar.gz
+tar -xzf ${LOGSTASH_NAME}.tar.gz?raw
 mv ${LOGSTASH_NAME} logstash
-rm ${LOGSTASH_NAME}.tar.gz
+rm ${LOGSTASH_NAME}.tar.gz?raw
 
 #Create Logging Application  
 
