@@ -76,6 +76,7 @@ function stop() {
 function restart() {
     echo "Restarting logstash cartridge"
     stop
+	sleep 5
     start
 }
 
