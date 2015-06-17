@@ -1,6 +1,7 @@
-## OpenShift Logstash Cartridge
+## OpenShift LoggingService Cartridge
 
-The logstash cartridge allows you to start a version of logstash which can be used to stream, collect all the logs from OPENSHIFT_LOG_DIR (in a pre-defined format) into Doradus. The cartridge monitors the OPENSHIFT_LOG_DIR, tailing the log files, queueing up batches of records and when it either reaches the maximum batch size or when the maximum idle time has elapsed then cartridge would then write the log events to Doradus for enhanced performance reasons.
+The LoggingService cartridge allows you to start a version of Doradus-logstash which can be used to stream, collect all the logs from OPENSHIFT_LOG_DIR (in a pre-defined format) into Doradus. The cartridge monitors the OPENSHIFT_LOG_DIR, tailing the log files, queueing up batches of records and when it either reaches the maximum batch size or when the maximum idle time has elapsed then cartridge would then write the log events to Doradus for enhanced performance reasons.
+The Cartridge employs the Doradus-logstash GEM to interact with Doradus which is characterized by `batch_size`, `batch_wait` and can be viewed at `https://git.labs.dell.com/projects/BD/repos/logstash-output-batched_http/browse`
 
 
 ## Environment Variables
