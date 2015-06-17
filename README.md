@@ -12,18 +12,20 @@ These environment variables are used when configuring Logstash:
  * **`OPENSHIFT_DORADUS_TENANT`**: Tenant name. 
  * **`OPENSHIFT_DORADUS_USER`**: Tenant User. 
  * **`OPENSHIFT_DORADUS_PWD`**: Tenant Password. 
+ * **`OPENSHIFT_APP_NAME`**: Openshift Application Name. 
+ * **`OPENSHIFT_NAMESPACE`**: Openshift Namespace. 
 
 
 ## Installation
 
-First, configure the application with the appropriate environment variables. Then, add the cartridge to your application:
-
-    # Configure environment
-    $ rhc env set OPENSHIFT_DORADUS_HOST=abc123-us-east-1.foundcluster.com OPENSHIFT_DORADUS_PORT=1123 OPENSHIFT_DORADUS_TENANT=secret 
-	  OPENSHIFT_DORADUS_USER=lucille OPENSHIFT_DORADUS_PWD=agnes -a my-app
+First add the cartridge to your application followed by configuring the application with the appropriate environment variables as shown below: 
 
     # Add cartridge
-    $ rhc cartridge add -a your-app-name https://raw.githubusercontent.com/PiyushMattoo/openshift-log-cartridge/master/metadata/manifest.yml
+    $ rhc cartridge add -a <your-app-name> https://raw.githubusercontent.com/PiyushMattoo/openshift-log-cartridge/master/metadata/manifest.yml
+	
+	# Configure environment
+    $ rhc env set OPENSHIFT_DORADUS_HOST=abc123-us-east-1.foundcluster.com OPENSHIFT_DORADUS_PORT=1123 OPENSHIFT_DORADUS_TENANT=secret 
+	  OPENSHIFT_DORADUS_USER=lucille OPENSHIFT_DORADUS_PWD=agnes OPENSHIFT_APP_NAME=LoggingApplication OPENSHIFT_NAMESPACE=Logspace -a my-app
 
 ## Usage
 
@@ -34,7 +36,11 @@ For example: `2015-03-20 11:08:05 INFO Test Message One`
 
 Doradus REST command to view the logs:
 
-`http://<DoradusHost>:<DoradusPort>/LoggingApplication/Logs/_query?tenant=<DoradusTenant>&q=*`
+`http://<DoradusHost>:<DoradusPort>/<OPENSHIFT_APP_NAME>/logs_<OPENSHIFT_APP_NAME>_<OPENSHIFT_NAMESPACE></_query?tenant=<DoradusTenant>&q=*`
+
+Doradus Spider documentation can be viewed at:
+
+`https://github.com/dell-oss/Doradus/blob/master/docs/Doradus%20Spider%20Database.pdf`
 	
 ## License
 
