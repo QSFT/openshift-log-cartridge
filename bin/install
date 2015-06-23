@@ -5,6 +5,7 @@ source $OPENSHIFT_CARTRIDGE_SDK_BASH
 LOGSTASH_VERSION='1.5.0'
 LOGSTASH_NAME="logstash-${LOGSTASH_VERSION}"
 LOGSTASH_URL="https://git.labs.dell.com/projects/BD/repos/logstash-output-batched_http/browse/artifacts/${LOGSTASH_NAME}.tar.gz?raw"
+echo \"logs_${OPENSHIFT_APP_NAME}_${OPENSHIFT_NAMESPACE}\"
 
 cd ${OPENSHIFT_DATA_DIR}
 wget ${LOGSTASH_URL}
