@@ -32,6 +32,12 @@ Cart-Data:
   - Key: "OPENSHIFT_DORADUS_PWD"
     Type: environment
     Description: "Tenant Password"	
+  - Key: "OPENSHIFT_APP_NAME"
+    Type: environment
+    Description: "Openshift Application Name"	
+  - Key: "OPENSHIFT_NAMESPACE"
+    Type: environment
+    Description: "Openshift Namespace"	
 Provides:
  - logstash
 Scaling:

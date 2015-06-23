@@ -3,7 +3,11 @@
 input {
     file {
         path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*.log"
-        type => "log"
+        codec => multiline {
+			pattern => "^%{TIMESTAMP_ISO8601} "
+			negate => true
+			what => previous
+		}
     }
 }
 
@@ -11,7 +15,7 @@ filter {
    if [type] == "log" {
       grok {
         match => [
-             "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} %{GREEDYDATA:logmessage}",
+             "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} (?m)%{GREEDYDATA:logmessage}",
              "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
         ]
         break_on_match => false
@@ -26,7 +30,7 @@ filter {
 output {
     batched_http {
 	    http_method => "post"
-		url => "http://<%= ENV['OPENSHIFT_DORADUS_HOST'] %>:<%= ENV['OPENSHIFT_DORADUS_PORT'] %>/LoggingApplication/Logs?tenant=<%= ENV['OPENSHIFT_DORADUS_TENANT'] %>"
+		url => "http://<%= ENV['OPENSHIFT_DORADUS_HOST'] %>:<%= ENV['OPENSHIFT_DORADUS_PORT'] %>/LoggingApplication/logs_<%= ENV['OPENSHIFT_APP_NAME'] %>_<%= ENV['OPENSHIFT_NAMESPACE'] %>?tenant=<%= ENV['OPENSHIFT_DORADUS_TENANT'] %>"
 		format => "message"
 		headers => ["Authorization","Basic %{enccred}"]
         content_type => "application/json"

@@ -11,3 +11,5 @@ wget ${LOGSTASH_URL}
 tar -xzf ${LOGSTASH_NAME}.tar.gz?raw
 mv ${LOGSTASH_NAME} logstash
 rm ${LOGSTASH_NAME}.tar.gz?raw
+
+curl -X POST -H "content-type: application/json" -u ${OPENSHIFT_DORADUS_USER}:${OPENSHIFT_DORADUS_PWD} -d '{"LoggingApplication": { "tables": {\"logs_${OPENSHIFT_APP_NAME}_${OPENSHIFT_NAMESPACE}\": { "fields": {"Timestamp": {"type": "timestamp"},"LogLevel": {"type": "text"},"Message": {"type": "text"}, "Source": {"type": "text"}}}}}}' http://${OPENSHIFT_DORADUS_HOST}:${OPENSHIFT_DORADUS_PORT}/_applications?tenant=${OPENSHIFT_DORADUS_TENANT}

@@ -78,7 +78,13 @@ function restart() {
     echo "Restarting logstash cartridge"
     stop
 	sleep 5
-    start
+	if is_running
+	then  
+	   client_result "Waiting before Logstash to stop before starting back.."
+	   sleep 5
+	else 
+	   start
+	fi   
 }
 
 function status() {
@@ -88,11 +94,6 @@ function status() {
     else
         client_result "Logstash is not currently running"
     fi
-	#Create Logging Application  
-
-	if [ -z "${OPENSHIFT_DORADUS_USER}" ] && [ -z "${OPENSHIFT_DORADUS_PWD}" ] && [ -z "$OPENSHIFT_APP_NAME" ] && [ -z "$OPENSHIFT_NAMESPACE" ] && [ -z "$OPENSHIFT_DORADUS_HOST" ] && [ -z "$OPENSHIFT_DORADUS_PORT" ] && [ -z "$OPENSHIFT_DORADUS_TENANT" ]; then
-      curl -X POST -H "content-type: application/json" -u ${OPENSHIFT_DORADUS_USER}:${OPENSHIFT_DORADUS_PWD} -d '{"LoggingApplication": { "tables": {\"logs_${OPENSHIFT_APP_NAME}_${OPENSHIFT_NAMESPACE}\": { "fields": {"Timestamp": {"type": "timestamp"},"LogLevel": {"type": "text"},"Message": {"type": "text"}, "Source": {"type": "text"}}}}}}' http://${OPENSHIFT_DORADUS_HOST}:${OPENSHIFT_DORADUS_PORT}/_applications?tenant=${OPENSHIFT_DORADUS_TENANT}
-	fi
 }
 
 if ! [ $# -gt 0 ]; then
