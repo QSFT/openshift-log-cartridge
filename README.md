@@ -13,20 +13,19 @@ These environment variables are used when configuring Logstash:
  * **`OPENSHIFT_DORADUS_TENANT`**: Tenant name. 
  * **`OPENSHIFT_DORADUS_USER`**: Tenant User. 
  * **`OPENSHIFT_DORADUS_PWD`**: Tenant Password. 
- * **`OPENSHIFT_APP_NAME`**: Openshift Application Name. 
- * **`OPENSHIFT_NAMESPACE`**: Openshift Namespace. 
 
 
 ## Installation
 
 First add the cartridge to your application followed by configuring the application with the appropriate environment variables as shown below: 
 
-    # Add cartridge
-    $ rhc cartridge add -a <your-app-name> https://raw.githubusercontent.com/PiyushMattoo/openshift-log-cartridge/master/metadata/manifest.yml
-	
 	# Configure environment
     $ rhc env set OPENSHIFT_DORADUS_HOST=abc123-us-east-1.foundcluster.com OPENSHIFT_DORADUS_PORT=1123 OPENSHIFT_DORADUS_TENANT=secret 
 	  OPENSHIFT_DORADUS_USER=lucille OPENSHIFT_DORADUS_PWD=agnes OPENSHIFT_APP_NAME=LoggingApplication OPENSHIFT_NAMESPACE=Logspace -a my-app
+	  
+    # Add cartridge
+    $ rhc cartridge add -a <your-app-name> https://raw.githubusercontent.com/PiyushMattoo/openshift-log-cartridge/master/metadata/manifest.yml
+	
 
 ## Usage
 
