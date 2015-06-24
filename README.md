@@ -21,7 +21,7 @@ First add the cartridge to your application followed by configuring the applicat
 
 	# Configure environment
     $ rhc env set OPENSHIFT_DORADUS_HOST=abc123-us-east-1.foundcluster.com OPENSHIFT_DORADUS_PORT=1123 OPENSHIFT_DORADUS_TENANT=secret 
-	  OPENSHIFT_DORADUS_USER=lucille OPENSHIFT_DORADUS_PWD=agnes OPENSHIFT_APP_NAME=LoggingApplication OPENSHIFT_NAMESPACE=Logspace -a my-app
+	  OPENSHIFT_DORADUS_USER=lucille OPENSHIFT_DORADUS_PWD=agnes -a my-app
 	  
     # Add cartridge
     $ rhc cartridge add -a <your-app-name> https://raw.githubusercontent.com/PiyushMattoo/openshift-log-cartridge/master/metadata/manifest.yml

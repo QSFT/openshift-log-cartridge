@@ -4,15 +4,14 @@ input {
     file {
         path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*.log"
         codec => multiline {
-			pattern => "^%{TIMESTAMP_ISO8601} "
-			negate => true
-			what => previous
+		  pattern => "^%{TIMESTAMP_ISO8601} "
+		  negate => true
+		  what => previous
 		}
     }
 }
 
 filter {
-   if [type] == "log" {
       grok {
         match => [
              "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} (?m)%{GREEDYDATA:logmessage}",
@@ -24,7 +23,6 @@ filter {
 	    code => "require 'base64';
 		event['enccred'] = Base64.encode64('<%= ENV['OPENSHIFT_DORADUS_USER'] %>:<%= ENV['OPENSHIFT_DORADUS_PWD'] %>').gsub(/\n/, '')"
       }
-   }
 }
 
 output {
