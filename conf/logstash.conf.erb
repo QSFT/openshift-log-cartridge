@@ -3,6 +3,7 @@
 input {
     file {
         path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*.log"
+		sincedb_path => <%= ENV['OPENSHIFT_DATA_DIR'] %>/since.db
         codec => multiline {
 		  pattern => "^%{TIMESTAMP_ISO8601} "
 		  negate => true
