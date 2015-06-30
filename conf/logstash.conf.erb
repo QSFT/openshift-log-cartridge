@@ -2,8 +2,29 @@
 
 input {
     file {
+     path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*access*.log"
+     sincedb_path => "<%= ENV['OPENSHIFT_DATA_DIR'] %>/since.db"
+     type => "apache"
+    }
+	file {
+     path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*haproxy*.log"
+     sincedb_path => "<%= ENV['OPENSHIFT_DATA_DIR'] %>/since.db"
+     type => "haproxy"
+    }
+	file {
+        path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*jboss*.log"
+		sincedb_path => "<%= ENV['OPENSHIFT_DATA_DIR'] %>/since.db"
+		type => "jboss"
+        codec => multiline {
+		  pattern => "^%{TIMESTAMP_ISO8601} "
+		  negate => true
+		  what => previous
+		}
+    }
+    file {
         path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*.log"
 		sincedb_path => "<%= ENV['OPENSHIFT_DATA_DIR'] %>/since.db"
+		type => "default"
         codec => multiline {
 		  pattern => "^%{TIMESTAMP_ISO8601} "
 		  negate => true
@@ -13,13 +34,39 @@ input {
 }
 
 filter {
+    if [type] == "apache" {
       grok {
         match => [
-             "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} (?m)%{GREEDYDATA:logmessage}",
-             "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
-        ]
+                      "message", "%{COMBINEDAPACHELOG}",
+                      "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
+                 ]
         break_on_match => false
       }
+	} else if [type] == "haproxy" {
+         grok {
+           match => [
+                      "message", "%{HAPROXYHTTP}",
+                      "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
+                   ]
+                   break_on_match => false
+         }
+      } else if [type] == "jboss" {
+         grok {
+           match => [
+                      "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} (?<message>(.|\r|\n)*)%{GREEDYDATA:logmessage}",
+                      "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
+                   ]
+                   break_on_match => false
+         }
+       } else if [type] == "default" {
+        grok {
+           match => [
+             "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} (?m)%{GREEDYDATA:logmessage}",
+             "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
+           ]
+          break_on_match => false
+        }
+      }	
 	  ruby {
 	    code => "require 'base64';
 		event['enccred'] = Base64.encode64('<%= ENV['OPENSHIFT_DORADUS_USER'] %>:<%= ENV['OPENSHIFT_DORADUS_PWD'] %>').gsub(/\n/, '')"
