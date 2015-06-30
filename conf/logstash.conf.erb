@@ -53,7 +53,7 @@ filter {
       } else if [type] == "jboss" {
          grok {
            match => [
-                      "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} (?<message>(.|\r|\n)*)%{GREEDYDATA:logmessage}",
+                      "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} (?<logmessage>(.|\r|\n)*),
                       "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
                    ]
                    break_on_match => false
