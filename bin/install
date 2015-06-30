@@ -6,7 +6,7 @@ LOGSTASH_VERSION='1.5.0'
 LOGSTASH_NAME="logstash-${LOGSTASH_VERSION}"
 LOGSTASH_URL="https://git.labs.dell.com/projects/BD/repos/logstash-output-batched_http/browse/artifacts/${LOGSTASH_NAME}.tar.gz?raw"
 tableName="$(echo 'logs_'${OPENSHIFT_APP_NAME}'_'${OPENSHIFT_NAMESPACE})"
-data="{\"LoggingApplication\": { \"tables\": {\"$tableName\": { \"fields\": {\"Timestamp\": {\"type\": \"timestamp\"},\"LogLevel\": {\"type\": \"text\"},\"Message\": {\"type\": \"text\"}, \"Source\": {\"type\": \"text\"}}}}}}"
+data="{\"LoggingApplication\":{\"key\":\"LoggingApp\", \"tables\": {\"$tableName\": { \"fields\": {\"Timestamp\": {\"type\": \"timestamp\"},\"LogLevel\": {\"type\": \"text\"},\"Message\": {\"type\": \"text\"}, \"Source\": {\"type\": \"text\"}}}}}}"
 
 cd ${OPENSHIFT_DATA_DIR}
 wget ${LOGSTASH_URL}
@@ -15,4 +15,3 @@ mv ${LOGSTASH_NAME} logstash
 rm ${LOGSTASH_NAME}.tar.gz?raw
 
 curl -X POST -H "content-type: application/json" -u ${OPENSHIFT_DORADUS_USER}:${OPENSHIFT_DORADUS_PWD} -d "$data" http://${OPENSHIFT_DORADUS_HOST}:${OPENSHIFT_DORADUS_PORT}/_applications?tenant=${OPENSHIFT_DORADUS_TENANT}
-
