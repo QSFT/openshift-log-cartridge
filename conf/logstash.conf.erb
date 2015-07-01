@@ -5,11 +5,21 @@ input {
      path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*access*.log"
      sincedb_path => "<%= ENV['OPENSHIFT_DATA_DIR'] %>/since.db"
      type => "apache"
+	 codec => multiline {
+		pattern => "^%{IPORHOST} "
+		negate => true
+		what => previous
+     }
     }
 	file {
      path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*haproxy*.log"
      sincedb_path => "<%= ENV['OPENSHIFT_DATA_DIR'] %>/since.db"
      type => "haproxy"
+	 codec => multiline {
+		pattern => "^%{SYSLOGTIMESTAMP} "
+		negate => true
+		what => previous
+     }
     }
 	file {
         path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*jboss*.log"
