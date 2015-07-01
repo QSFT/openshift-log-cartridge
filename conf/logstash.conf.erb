@@ -84,13 +84,45 @@ filter {
 }
 
 output {
-    batched_http {
-	    http_method => "post"
-		url => "http://<%= ENV['OPENSHIFT_DORADUS_HOST'] %>:<%= ENV['OPENSHIFT_DORADUS_PORT'] %>/LoggingApplication/logs_<%= ENV['OPENSHIFT_APP_NAME'] %>_<%= ENV['OPENSHIFT_NAMESPACE'] %>?tenant=<%= ENV['OPENSHIFT_DORADUS_TENANT'] %>"
-		format => "message"
-		headers => ["Authorization","Basic %{enccred}"]
-        content_type => "application/json"
-		batched => '{ "doc": { "Timestamp": "%{time}", "LogLevel": "%{level}","LogMessage": "%{message}", "Source": "%{filename}" } }'
-        message => '{"batch": { "docs": [ %{batched} ] } }'
-    }
+    if [type] == "apache" {
+		batched_http {
+			http_method => "post"
+			url => "http://<%= ENV['OPENSHIFT_DORADUS_HOST'] %>:<%= ENV['OPENSHIFT_DORADUS_PORT'] %>/LoggingApplication/logs_<%= ENV['OPENSHIFT_APP_NAME'] %>_<%= ENV['OPENSHIFT_NAMESPACE'] %>?tenant=<%= ENV['OPENSHIFT_DORADUS_TENANT'] %>"
+			format => "message"
+			headers => ["Authorization","Basic %{enccred}"]
+			content_type => "application/json"
+			batched => '{ "doc": { "Timestamp": "%{timestamp}", "LogMessage": "%{message}", "Source": "%{filename}" } }'
+			message => '{"batch": { "docs": [ %{batched} ] } }'
+		}
+	} else if [type] == "haproxy" {
+		batched_http {
+			http_method => "post"
+			url => "http://<%= ENV['OPENSHIFT_DORADUS_HOST'] %>:<%= ENV['OPENSHIFT_DORADUS_PORT'] %>/LoggingApplication/logs_<%= ENV['OPENSHIFT_APP_NAME'] %>_<%= ENV['OPENSHIFT_NAMESPACE'] %>?tenant=<%= ENV['OPENSHIFT_DORADUS_TENANT'] %>"
+			format => "message"
+			headers => ["Authorization","Basic %{enccred}"]
+			content_type => "application/json"
+			batched => '{ "doc": { "Timestamp": "%{accept_date}", "LogMessage": "%{message}", "Source": "%{filename}" } }'
+			message => '{"batch": { "docs": [ %{batched} ] } }'
+		}
+	} else if [type] == "jboss" {
+		batched_http {
+			http_method => "post"
+			url => "http://<%= ENV['OPENSHIFT_DORADUS_HOST'] %>:<%= ENV['OPENSHIFT_DORADUS_PORT'] %>/LoggingApplication/logs_<%= ENV['OPENSHIFT_APP_NAME'] %>_<%= ENV['OPENSHIFT_NAMESPACE'] %>?tenant=<%= ENV['OPENSHIFT_DORADUS_TENANT'] %>"
+			format => "message"
+			headers => ["Authorization","Basic %{enccred}"]
+			content_type => "application/json"
+			batched => '{ "doc": { "Timestamp": "%{time}", "LogLevel": "%{level}","LogMessage": "%{message}", "Source": "%{filename}" } }'
+			message => '{"batch": { "docs": [ %{batched} ] } }'
+		}
+	} else if [type] == "default" {
+        batched_http {
+			http_method => "post"
+			url => "http://<%= ENV['OPENSHIFT_DORADUS_HOST'] %>:<%= ENV['OPENSHIFT_DORADUS_PORT'] %>/LoggingApplication/logs_<%= ENV['OPENSHIFT_APP_NAME'] %>_<%= ENV['OPENSHIFT_NAMESPACE'] %>?tenant=<%= ENV['OPENSHIFT_DORADUS_TENANT'] %>"
+			format => "message"
+			headers => ["Authorization","Basic %{enccred}"]
+			content_type => "application/json"
+			batched => '{ "doc": { "Timestamp": "%{time}", "LogLevel": "%{level}","LogMessage": "%{message}", "Source": "%{filename}" } }'
+			message => '{"batch": { "docs": [ %{batched} ] } }'
+		}
+      }	
 }
