@@ -58,7 +58,7 @@ filter {
       }
       ruby {
           code => "require 'date';
-          event['time'] = DateTime.parse(event['datetime'].to_iso8601).strftime('%Y-%m-%d %H:%M:%S.%L')"
+          event['Timestamp'] = DateTime.parse(event['datetime'].to_iso8601).strftime('%Y-%m-%d %H:%M:%S.%L')"
       }
 	} else if [type] == "haproxy" {
          grok {
@@ -74,12 +74,12 @@ filter {
           }
          ruby {
            code => "require 'date';
-           event['time'] = DateTime.parse(event['datetime'].to_iso8601).strftime('%Y-%m-%d %H:%M:%S.%L')"
+           event['Timestamp'] = DateTime.parse(event['datetime'].to_iso8601).strftime('%Y-%m-%d %H:%M:%S.%L')"
           }
       } else if [type] == "jboss" {
          grok {
            match => [
-                      "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} (?<logmessage>(.|\r|\n)*)",
+                      "message", "%{TIMESTAMP_ISO8601:Timestamp} %{LOGLEVEL:level} (?<logmessage>(.|\r|\n)*)",
                       "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
                    ]
                    break_on_match => false
@@ -87,7 +87,7 @@ filter {
        } else if [type] == "default" {
         grok {
            match => [
-             "message", "%{TIMESTAMP_ISO8601:time} %{LOGLEVEL:level} (?m)%{GREEDYDATA:logmessage}",
+             "message", "%{TIMESTAMP_ISO8601:Timestamp} %{LOGLEVEL:level} (?m)%{GREEDYDATA:logmessage}",
              "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
            ]
           break_on_match => false
@@ -107,7 +107,7 @@ output {
 			format => "message"
 			headers => ["Authorization","Basic %{enccred}"]
 			content_type => "application/json"
-			batched => '{ "doc": { "Timestamp": "%{time}", "LogMessage": "%{message}", "Source": "%{filename}" } }'
+			batched => '{ "doc": { "Timestamp": "%{Timestamp}", "LogMessage": "%{message}", "Source": "%{filename}" } }'
 			message => '{"batch": { "docs": [ %{batched} ] } }'
 		}
 	} else if [type] == "haproxy" {
@@ -117,7 +117,7 @@ output {
 			format => "message"
 			headers => ["Authorization","Basic %{enccred}"]
 			content_type => "application/json"
-			batched => '{ "doc": { "Timestamp": "%{time}", "LogMessage": "%{message}", "Source": "%{filename}" } }'
+			batched => '{ "doc": { "Timestamp": "%{Timestamp}", "LogMessage": "%{message}", "Source": "%{filename}" } }'
 			message => '{"batch": { "docs": [ %{batched} ] } }'
 		}
 	} else if [type] == "jboss" {
@@ -127,7 +127,7 @@ output {
 			format => "message"
 			headers => ["Authorization","Basic %{enccred}"]
 			content_type => "application/json"
-			batched => '{ "doc": { "Timestamp": "%{time}", "LogLevel": "%{level}","LogMessage": "%{message}", "Source": "%{filename}" } }'
+			batched => '{ "doc": { "Timestamp": "%{Timestamp}", "LogLevel": "%{level}","LogMessage": "%{message}", "Source": "%{filename}" } }'
 			message => '{"batch": { "docs": [ %{batched} ] } }'
 		}
 	} else if [type] == "default" {
@@ -137,7 +137,7 @@ output {
 			format => "message"
 			headers => ["Authorization","Basic %{enccred}"]
 			content_type => "application/json"
-			batched => '{ "doc": { "Timestamp": "%{time}", "LogLevel": "%{level}","LogMessage": "%{message}", "Source": "%{filename}" } }'
+			batched => '{ "doc": { "Timestamp": "%{Timestamp}", "LogLevel": "%{level}","LogMessage": "%{message}", "Source": "%{filename}" } }'
 			message => '{"batch": { "docs": [ %{batched} ] } }'
 		}
       }	

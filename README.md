@@ -29,7 +29,7 @@ First add the cartridge to your application followed by configuring the applicat
 
 ## Usage / Log types supported
 
-The Logging Cartridge supports Apache, HAProxy, JBoss log formats and a default one as shown below. Redirect the application logs to OPENSHIFT_LOG_DIR in the below format and the log will be tailed, loaded into Doradus.
+The Logging Cartridge supports Apache, HAProxy, JBoss log formats and a default format as shown below. Redirect the application logs to OPENSHIFT_LOG_DIR in the corresponding format and the log will be tailed, loaded into Doradus.
 
 `<ISO 8601 Standard time> <LogLevel> <Log Message>`  
 For example: `2015-03-20 11:08:05 INFO Test Message One` 
