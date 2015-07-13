@@ -26,7 +26,7 @@ input {
 		sincedb_path => "<%= ENV['OPENSHIFT_DATA_DIR'] %>/since.db"
 		type => "jboss"
         codec => multiline {
-		  pattern => "^%{TIMESTAMP_ISO8601} "
+		  pattern => "^(%{YEAR}/%{MONTHNUM}/%{MONTHDAY} %{HOUR}:%{MINUTE}:%{SECOND}) "
 		  negate => true
 		  what => previous
 		}
@@ -79,7 +79,7 @@ filter {
       } else if [type] == "jboss" {
          grok {
            match => [
-                      "message", "%{TIMESTAMP_ISO8601:Timestamp} %{LOGLEVEL:level} (?<logmessage>(.|\r|\n)*)",
+                      "message", "(?<time>%{YEAR}/%{MONTHNUM}/%{MONTHDAY} %{HOUR}:%{MINUTE}:%{SECOND}) %{LOGLEVEL:level} (?<message>(.|\r|\n)*)",
                       "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
                    ]
                    break_on_match => false
