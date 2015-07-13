@@ -79,11 +79,19 @@ filter {
       } else if [type] == "jboss" {
          grok {
            match => [
-                      "message", "(?<time>%{YEAR}/%{MONTHNUM}/%{MONTHDAY} %{HOUR}:%{MINUTE}:%{SECOND}) %{LOGLEVEL:level} (?<message>(.|\r|\n)*)",
+                      "message", "(?<jtime>%{YEAR}/%{MONTHNUM}/%{MONTHDAY} %{HOUR}:%{MINUTE}:%{SECOND}) %{LOGLEVEL:level} (?<message>(.|\r|\n)*)",
                       "path","%{GREEDYDATA}/%{GREEDYDATA:filename}\.log"
                    ]
                    break_on_match => false
          }
+		 date {
+           match => [ 'jtime', 'YY-MM-dd HH:mm:ss,SSS']
+           target => ["datetime"]
+          }
+		 ruby {
+           code => "require 'date';
+           event['Timestamp'] = DateTime.parse(event['datetime'].to_iso8601).strftime('%Y-%m-%d %H:%M:%S.%L')"
+          }
        } else if [type] == "default" {
         grok {
            match => [
